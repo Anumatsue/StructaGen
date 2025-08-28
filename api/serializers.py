@@ -1,4 +1,5 @@
 from rest_framework import serializers
+<<<<<<< HEAD
 from .models import Tower, Antenna, StressResult, Report
 
 class AntennaSerializer(serializers.ModelSerializer):
@@ -12,6 +13,9 @@ class StressResultSerializer(serializers.ModelSerializer):
         model = StressResult
         fields = "__all__"
         read_only_fields = ("tower",)
+=======
+from .models import Tower, Report
+>>>>>>> feature/reports-api
 
 class TowerSerializer(serializers.ModelSerializer):
     antennas = AntennaSerializer(many=True, read_only=True)
@@ -19,6 +23,7 @@ class TowerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tower
+<<<<<<< HEAD
         fields = ["id", "owner", "name", "location", "height_m", "tower_type", "antennas", "stress_results"]
         read_only_fields = ["owner"]
 
@@ -26,6 +31,16 @@ class TowerSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
         return Tower.objects.create(owner=user, **validated_data)
 
+=======
+        fields = ['id', 'owner', 'name', 'location', 'height_m', 'tower_type', 'created_at']
+        read_only_fields = ['id', 'created_at']
+    
+    
+    def create(self, validated_data):
+        user = self.context["request"].user
+        return Tower.objects.create(owner=user, **validated_data)
+    
+>>>>>>> feature/reports-api
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
