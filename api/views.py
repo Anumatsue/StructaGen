@@ -1,10 +1,15 @@
-from django.shortcuts import render
+#from django.shortcuts import render
 
-# api/views.py
-from rest_framework import viewsets, permissions
-from .models import Tower
-from .serializers import TowerSerializer
- 
+# Create your views here.
+
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from .models import Tower, Antenna, StressResult, Report
+from .serializers import TowerSerializer, AntennaSerializer, StressResultSerializer, ReportSerializer
+from .permissions import IsOwner
+from .services.report_generator import ReportGenerator
 
 class TowerViewSet(viewsets.ModelViewSet):
     serializer_class = TowerSerializer
@@ -33,15 +38,12 @@ class AntennaViewSet(viewsets.ModelViewSet):
         return Antenna.objects.filter(tower__owner=self.request.user)
 
     def perform_create(self, serializer):
-<<<<<<< Updated upstream
-        # Ensure the logged-in user is set as the owner
-        serializer.save(owner=self.request.user)
-=======
         tower_id = self.request.data.get("tower")
         tower = get_object_or_404(Tower, pk=tower_id, owner=self.request.user)
         obj = serializer.save(tower=tower)
         obj.calculate_epa_fpa()
         obj.save()
+
 class StressResultViewSet(viewsets.ModelViewSet):
     serializer_class = StressResultSerializer
     permission_classes = [IsOwner]
@@ -65,4 +67,3 @@ class ReportViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return self.request.user.reports.all()
 
->>>>>>> Stashed changes
