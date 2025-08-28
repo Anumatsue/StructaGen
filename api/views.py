@@ -1,6 +1,5 @@
 #from django.shortcuts import render
 
-<<<<<<< HEAD
 # Create your views here.
 
 from rest_framework import viewsets, status
@@ -11,14 +10,6 @@ from .models import Tower, Antenna, StressResult, Report
 from .serializers import TowerSerializer, AntennaSerializer, StressResultSerializer, ReportSerializer
 from .permissions import IsOwner
 from .services.report_generator import ReportGenerator
-=======
-# api/views.py
-from rest_framework import viewsets, permissions
-from .models import Tower, Report
-from .serializers import TowerSerializer, ReportSerializer
-from .permissions import IsOwner
- 
->>>>>>> feature/reports-api
 
 class TowerViewSet(viewsets.ModelViewSet):
     serializer_class = TowerSerializer
@@ -47,7 +38,6 @@ class AntennaViewSet(viewsets.ModelViewSet):
         return Antenna.objects.filter(tower__owner=self.request.user)
 
     def perform_create(self, serializer):
-<<<<<<< HEAD
         tower_id = self.request.data.get("tower")
         tower = get_object_or_404(Tower, pk=tower_id, owner=self.request.user)
         obj = serializer.save(tower=tower)
@@ -68,11 +58,6 @@ class StressResultViewSet(viewsets.ModelViewSet):
         tower_id = self.request.data.get("tower")
         tower = get_object_or_404(Tower, pk=tower_id, owner=self.request.user)
         serializer.save(tower=tower)
-=======
-        # Ensure the logged-in user is set as the owner
-        serializer.save(owner=self.request.user)
-
->>>>>>> feature/reports-api
 
 class ReportViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Report.objects.all()

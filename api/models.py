@@ -15,7 +15,6 @@ class Tower(models.Model):
     tower_type = models.CharField(max_length=100)
     created_at = models.DateTimeField(default=timezone.now)
 
-<<<<<<< HEAD
     def __str__(self):
         return f"{self.name} ({self.location})"
 
@@ -49,14 +48,6 @@ class StressResult(models.Model):
 
 def report_upload_path(instance, filename):
     return f"reports/user_{instance.owner.id}/tower_{instance.tower.id}/{filename}"
-=======
-    
-    def __str__(self):
-        return self.name
-
-def report_upload_path(instance, filename):
-    return f"reports/user_{instance.owner.id}/tower_{instance.tower.id}/{filename}"    
->>>>>>> feature/reports-api
 
 class Report(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reports")

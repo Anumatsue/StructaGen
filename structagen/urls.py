@@ -14,21 +14,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
-
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.conf import settings
+from django.conf.urls.static import static
+from django.http import JsonResponse  # <-- Add this
 
+# Simple root view
+def api_root_view(request):
+    return JsonResponse({
+        "message": "Welcome to the Structagen API",
+        "endpoints": {
+            "login": "/api/auth/login/",
+            "refresh": "/api/auth/refresh/",
+            "api_root": "/api/"
+        }
+    })
 
 urlpatterns = [
-<<<<<<< HEAD
+    path("", api_root_view),  # <-- This is what fixes the 404 at "/"
     path("admin/", admin.site.urls),
+    path("api/auth/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/", include("api.urls")),
-] 
-=======
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # include our API endpoints
-]
->>>>>>> feature/reports-api
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
