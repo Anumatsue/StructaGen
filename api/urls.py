@@ -8,6 +8,7 @@ router.register(r'towers', TowerViewSet, basename='tower')
 <<<<<<< Updated upstream
 =======
 router.register(r"antennas", AntennaViewSet, basename="antennas")
+router.register(r"stress", StressResultViewSet, basename="stress")
 router.register(r"reports", ReportViewSet, basename="reports")
 >>>>>>> Stashed changes
 

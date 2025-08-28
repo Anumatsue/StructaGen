@@ -42,6 +42,20 @@ class AntennaViewSet(viewsets.ModelViewSet):
         obj = serializer.save(tower=tower)
         obj.calculate_epa_fpa()
         obj.save()
+class StressResultViewSet(viewsets.ModelViewSet):
+    serializer_class = StressResultSerializer
+    permission_classes = [IsOwner]
+
+    def get_queryset(self):
+        tower_id = self.kwargs.get("tower_pk") or self.request.query_params.get("tower")
+        if tower_id:
+            return StressResult.objects.filter(tower__owner=self.request.user, tower_id=tower_id)
+        return StressResult.objects.filter(tower__owner=self.request.user)
+
+    def perform_create(self, serializer):
+        tower_id = self.request.data.get("tower")
+        tower = get_object_or_404(Tower, pk=tower_id, owner=self.request.user)
+        serializer.save(tower=tower)
 
 class ReportViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Report.objects.all()
