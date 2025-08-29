@@ -31,3 +31,5 @@ class ReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = ["id", "owner", "tower", "docx_file", "created_at", "title", "metadata"]
         read_only_fields = ["owner", "docx_file", "created_at"]
+
+

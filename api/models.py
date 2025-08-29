@@ -1,6 +1,4 @@
-# Create your models here.
 
-# api/models.py
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -10,7 +8,7 @@ User = settings.AUTH_USER_MODEL
 class Tower(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="towers")
     name = models.CharField(max_length=200)
-    location = models.CharField(max_length=500)   # optionally change to PointField later
+    location = models.CharField(max_length=500)   # will change to PointField later 
     height_m = models.FloatField()
     tower_type = models.CharField(max_length=100)
     created_at = models.DateTimeField(default=timezone.now)
@@ -59,4 +57,6 @@ class Report(models.Model):
 
     def __str__(self):
         return f"Report {self.id} for {self.tower.name}"
+
+
 

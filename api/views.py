@@ -67,3 +67,4 @@ class ReportViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return self.request.user.reports.all()
 
+
