@@ -1,62 +1,141 @@
-# StructaGen
-A backend system for generating telecom tower mast structural reports.
+StructaGen API
 
-StructaGen
+StructaGen is a Django REST Framework (DRF) project designed for structural reporting of telecom towers.
+The API allows engineers to input tower and antenna parameters, automatically calculate stresses, and generate structured reports.
 
-StructaGen is a backend project for generating structural analysis reports for telecom towers. It allows engineers to input tower data, antenna loading, and stress analysis results, and automatically generate professional reports in .docx format.
+🚀 Features
 
-Features (Planned)
+🔑 JWT Authentication (secure login/logout with access & refresh tokens)
 
-Manage tower and antenna data.
+🏗️ Tower Management (CRUD endpoints for tower models)
 
-Calculate EPA (Effective Projected Area) and FPA (Full Projected Area).
+📡 Antenna Management with auto-calculated EPA & FPA values
 
-Store stress analysis results.
+📊 Stress & Deflection Results linked to tower models
 
-Auto-generate structural reports with placeholders for images and charts.
+📝 Reports automatically generated upon data submission
 
-Export reports in .docx format.
+🌐 RESTful API tested with Postman & DRF Browsable API
 
-Tech Stack
+📦 Tech Stack
 
 Backend: Django, Django REST Framework
 
-Database: SQLite (development), PostgreSQL (production)
+Database: SQLite (development), can be switched to PostgreSQL/MySQL in production
 
-Report Generation: Python-docx
+Authentication: JWT (SimpleJWT)
 
-Version Control: Git + GitHub
+Deployment: PythonAnywhere
 
-Project Setup
+⚙️ Installation & Setup
 
-Clone the repo:
+Clone the repository
 
-git clone https://github.com/Anumatsue/StructaGen.git
-cd StructaGen
-
-
-Create and activate a virtual environment:
-
-python -m venv venv
-source venv/bin/activate    # Mac/Linux
-venv\Scripts\activate       # Windows
+git clone https://github.com/Anumatsue/structagen.git
+cd structagen
 
 
-Install dependencies:
+Create a virtual environment
+
+python -m venv .env
+source .env/bin/activate   # Linux/Mac
+.env\Scripts\activate      # Windows
+
+
+Install dependencies
 
 pip install -r requirements.txt
 
 
-Run migrations:
+Apply migrations
 
+python manage.py makemigrations
 python manage.py migrate
 
 
-Start the development server:
+Create a superuser
+
+python manage.py createsuperuser
+
+
+Run development server
 
 python manage.py runserver
 
-Status
+🔑 Authentication (JWT)
+
+Obtain tokens:
+
+POST /api/auth/login/
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+
+
+Response:
+
+{
+  "access": "your-access-token",
+  "refresh": "your-refresh-token"
+}
+
+
+Use Authorization: Bearer <access_token> in Postman or frontend requests.
+
+📡 API Endpoints (examples)
+Towers
+
+GET /api/towers/ – List towers
+
+POST /api/towers/ – Create tower
+
+GET /api/towers/{id}/ – Retrieve tower
+
+Antennas
+
+POST /api/antennas/ – Add antenna (EPA/FPA auto-calculated)
+
+Stress Results
+
+POST /api/stress-results/ – Stress ratio, deflection
+Reports
+
+GET /api/reports/ – List all generated reports
+
+🌍 Deployment (PythonAnywhere)
+
+Push code to GitHub
+
+Create a PythonAnywhere account
+
+Pull project from GitHub into PythonAnywhere console
+
+Create and activate virtualenv, install dependencies
+
+Run:
+
+python manage.py migrate
+python manage.py collectstatic
+
+
+Configure WSGI file to point to Django project
+
+Map /static/ to STATIC_ROOT in PythonAnywhere static files settings
+
+Reload web app 🎉
+
+🧹 Notes
+
+Migrations: Keep only clean migration files before final deployment (delete redundant ones if project was restarted multiple times).
+
+collectstatic: Needed for CSS/JS/images in production.
+
+Database: SQLite works on PythonAnywhere, but PostgreSQL is recommended for scalability.
+
+👨‍💻 Author
+
+Paschal Ebitse – Backend Software Engineer (ALX Africa Capstone Project)
 
 Project in early development phase (Capstone project @ ALX Africa).
 
