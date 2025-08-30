@@ -2,7 +2,7 @@ from docxtpl import DocxTemplate
 from django.core.files.base import ContentFile
 from io import BytesIO
 from datetime import datetime
-from ..models import Report
+
 
 class ReportGenerator:
     def __init__(self, tower, include_stress=True, user=None, template_path="templates/struct_report_template.docx"):
@@ -40,6 +40,7 @@ class ReportGenerator:
         return f.read()
 
     def generate_and_save(self):
+        from ..models import Report
         data = self.generate_docx_bytes()
         filename = f"{self.tower.name.replace(' ','_')}_report_{datetime.utcnow().strftime('%Y%m%d%H%M%S')}.docx"
         report = Report.objects.create(

@@ -36,6 +36,7 @@ def api_root_view(request):
 urlpatterns = [
     path("", api_root_view),  # <-- This is what fixes the 404 at "/"
     path("admin/", admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')), 
     path("api/auth/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/", include("api.urls")),
