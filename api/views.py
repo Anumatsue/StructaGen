@@ -56,12 +56,16 @@ class StressResultViewSet(viewsets.ModelViewSet):
         tower = get_object_or_404(Tower, pk=tower_id, owner=self.request.user)
         serializer.save(tower=tower)
 
-class ReportViewSet(viewsets.ReadOnlyModelViewSet):
+
+class ReportViewSet(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     permission_classes = [IsOwner]
 
     def get_queryset(self):
+        # Only allow users to see their own reports
         return self.request.user.reports.all()
 
-
+    def perform_create(self, serializer):
+        # Attach the logged-in user as owner
+        serializer.save(owner=self.request.user)

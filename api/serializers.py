@@ -29,7 +29,7 @@ class TowerSerializer(serializers.ModelSerializer):
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
-        fields = ["id", "owner", "tower", "docx_file", "created_at", "title", "metadata"]
-        read_only_fields = ["owner", "docx_file", "created_at"]
+        fields = ["id", "owner", "tower", "created_at", "title", "metadata"]
+        read_only_fields = ["owner", "docx_file", "created_at", "metadata"]
 
 
