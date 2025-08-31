@@ -15,7 +15,12 @@ class ReportGenerator:
         antennas = list(self.tower.antennas.all().values(
             "antenna_type", "mount_height_m", "length_m", "width_m", "depth_m", "epa", "fpa", "notes"
         ))
-        stress = list(self.tower.stress_results.all().values("member_id", "axial_stress", "bending_stress", "notes"))
+        stress = list(self.tower.stress_results.all().values("member_id",
+        "max_stress_ratio_legs",
+        "max_stress_ratio_bracings",
+        "deflection_value_sls",
+        "deflection_value_uls",
+        "notes",))
         ctx = {
             "tower": {
                 "name": self.tower.name,
